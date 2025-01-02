@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tcp-liveness-probe
+  labels:
+    app: tcp-probe-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tcp-probe-example
+  template:
+    metadata:
+      labels:
+        app: tcp-probe-example
+    spec:
+      containers:
+        - name: my-container
+          image: my-image:latest
+          ports:
+            - containerPort: 3306
+
+          # Liveness Probe - TCP Based
+          livenessProbe:
+            tcpSocket:
+              port: 3306
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 4

@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: exec-liveness-probe
+  labels:
+    app: exec-probe-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: exec-probe-example
+  template:
+    metadata:
+      labels:
+        app: exec-probe-example
+    spec:
+      containers:
+        - name: my-container
+          image: my-image:latest
+
+          # Liveness Probe - Command Based (Exec)
+          livenessProbe:
+            exec:
+              command:
+              - cat
+              - /tmp/healthy
+            initialDelaySeconds: 5
+            periodSeconds: 10

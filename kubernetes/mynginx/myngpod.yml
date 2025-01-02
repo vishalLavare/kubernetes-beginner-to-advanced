@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod1
+spec:
+  containers:
+  - image: nginx
+    name: mycont11
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: myng-volume
+      mountPath: /etc/nginx/nginx.conf
+      subPath: nginx.conf
+  volumes:
+  - name: myng-volume
+    configMap:
+      name: myng-config
+

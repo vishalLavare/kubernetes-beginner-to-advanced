@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readiness-probe
+  labels:
+    app: readiness-probe-example
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: readiness-probe-example
+  template:
+    metadata:
+      labels:
+        app: readiness-probe-example
+    spec:
+      containers:
+        - name: my-container
+          image: my-image:latest
+          ports:
+            - containerPort: 80
+
+          # Readiness Probe - HTTP Based
+          readinessProbe:
+            httpGet:
+              path: /index.html
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 5
+            failureThreshold: 4
